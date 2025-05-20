@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="All-in-one web utilities including calculators and converters for everyday tasks">
+    <title>Web Utilities Hub</title>
+    <style>
+        :root {
+            --primary-blue: #0057b7;
+            --light-blue: #6a9bd8;
+            --primary-yellow: #ffd700;
+            --light-yellow: #fff2b0;
+            --dark-blue: #003b7a;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-yellow);
+            color: var(--dark-blue);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 4px solid var(--primary-yellow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 5px;
+        }
+
+        .tab-button {
+            background-color: var(--light-blue);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            flex-grow: 1;
+            max-width: 180px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .tab-button:hover {
+            background-color: var(--primary-yellow);
+            color: var(--dark-blue);
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-yellow);
+            color: var(--dark-blue);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-yellow);
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-blue);
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 87, 183, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .result {
+            background-color: var(--light-yellow);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-weight: 600;
+            border-left: 4px solid var(--primary-yellow);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .currency-flags {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .currency-flag {
+            width: 30px;
+            height: 20px;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #qrCodeImage {
+            margin-top: 15px;
+            max-width: 100%;
+        }
+
+        .timezone-result {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .timezone-card {
+            background-color: var(--light-yellow);
+            padding: 15px;
+            border-radius: 4px;
+            flex: 1;
+            min-width: 200px;
+            border-left: 4px solid var(--primary-yellow);
+        }
+
+        .timezone-time {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+            border-top: 4px solid var(--primary-yellow);
+        }
+
+        .unit-convert-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .unit-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .unit-type-btn {
+            padding: 8px 15px;
+            background-color: var(--light-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .unit-type-btn.active {
+            background-color: var(--primary-yellow);
+            color: var(--dark-blue);
+        }
+
+        .unit-converter {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .tab-button {
+                flex-basis: calc(50% - 5px);
+                max-width: none;
+            }
+            
+            .timezone-card {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-button {
+                flex-basis: 100%;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+
+        /* Loading spinner */
+        .loader {
+            border: 4px solid var(--light-yellow);
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading .loader {
+            display: block;
+        }
+
+        /* Exchange rate last updated */
+        .exchange-update-time {
+            font-size: 0.8rem;
+            text-align: center;
+            font-style: italic;
+            margin-top: 5px;
+            color: var(--dark-blue);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Web Utilities Hub</h1>
+            <p>Your all-in-one toolkit for everyday calculations and conversions</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button active" data-tab="interest">Interest Calculator</button>
+            <button class="tab-button" data-tab="timezone">Time Zone Converter</button>
+            <button class="tab-button" data-tab="bmi">BMI Calculator</button>
+            <button class="tab-button" data-tab="currency">Currency Converter</button>
+            <button class="tab-button" data-tab="units">Unit Converter</button>
+            <button class="tab-button" data-tab="qrcode">QR Code Generator</button>
+        </div>
+
+        <!-- Interest Calculator Tab -->
+        <div class="tab-content active" id="interest">
+            <h2>Interest Calculator</h2>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="principal">Principal Amount</label>
+                        <input type="number" id="principal" placeholder="Enter principal amount" min="0" step="any">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="rate">Interest Rate (% per year)</label>
+                        <input type="number" id="rate" placeholder="Enter interest rate" min="0" step="any">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="time">Time Period</label>
+                        <input type="number" id="time" placeholder="Enter time period" min="0" step="any">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="time-unit">Time Unit</label>
+                        <select id="time-unit">
+                            <option value="years">Years</option>
+                            <option value="months">Months</option>
+                            <option value="days">Days</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="interest-type">Interest Type</label>
+                        <select id="interest-type">
+                            <option value="simple">Simple Interest</option>
+                            <option value="compound">Compound Interest</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col compound-options" style="display: none;">
+                    <div class="input-group">
+                        <label for="compound-frequency">Compound Frequency</label>
+                        <select id="compound-frequency">
+                            <option value="annually">Annually</option>
+                            <option value="semi-annually">Semi-Annually</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="daily">Daily</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button id="calculate-interest">Calculate Interest</button>
+            <div class="result" id="interest-result" style="display: none;"></div>
+        </div>
+
+        <!-- Time Zone Converter Tab -->
+        <div class="tab-content" id="timezone">
+            <h2>Time Zone Converter</h2>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="source-timezone">From Time Zone</label>
+                        <select id="source-timezone"></select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="target-timezone">To Time Zone</label>
+                        <select id="target-timezone"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="source-datetime">Date & Time</label>
+                        <input type="datetime-local" id="source-datetime">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <button id="use-current-time">Use Current Time</button>
+                </div>
+            </div>
+            <button id="convert-timezone">Convert Time Zone</button>
+            <div class="timezone-result" id="timezone-result" style="display: none;">
+                <div class="timezone-card">
+                    <div class="timezone-label">Source Time:</div>
+                    <div class="timezone-time" id="source-time-display"></div>
+                </div>
+                <div class="timezone-card">
+                    <div class="timezone-label">Target Time:</div>
+                    <div class="timezone-time" id="target-time-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BMI Calculator Tab -->
+        <div class="tab-content" id="bmi">
+            <h2>BMI Calculator</h2>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="bmi-unit">Unit System</label>
+                        <select id="bmi-unit">
+                            <option value="metric">Metric (kg, cm)</option>
+                            <option value="imperial">Imperial (lb, in)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row metric-inputs">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="weight-kg">Weight (kg)</label>
+                        <input type="number" id="weight-kg" placeholder="Enter weight in kilograms" min="0" step="any">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="height-cm">Height (cm)</label>
+                        <input type="number" id="height-cm" placeholder="Enter height in centimeters" min="0" step="any">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row imperial-inputs" style="display: none;">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="weight-lb">Weight (lb)</label>
+                        <input type="number" id="weight-lb" placeholder="Enter weight in pounds" min="0" step="any">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="height-ft">Height (ft)</label>
+                        <input type="number" id="height-ft" placeholder="Feet" min="0" step="any">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="height-in">Height (in)</label>
+                        <input type="number" id="height-in" placeholder="Inches" min="0" max="11.99" step="any">
+                    </div>
+                </div>
+            </div>
+            <button id="calculate-bmi">Calculate BMI</button>
+            <div class="result" id="bmi-result" style="display: none;"></div>
+        </div>
+
+        <!-- Currency Converter Tab -->
+        <div class="tab-content" id="currency">
+            <h2>Currency Converter</h2>
+            <div class="loader" id="currency-loader"></div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" placeholder="Enter amount" min="0" step="any">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="from-currency">From Currency</label>
+                        <select id="from-currency"></select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="to-currency">To Currency</label>
+                        <select id="to-currency"></select>
+                    </div>
+                </div>
+            </div>
+            <button id="convert-currency">Convert Currency</button>
+            <button id="swap-currency">Swap Currencies</button>
+            <div class="result" id="currency-result" style="display: none;"></div>
+            <div class="exchange-update-time" id="exchange-update-time"></div>
+        </div>
+
+        <!-- Unit Converter Tab -->
+        <div class="tab-content" id="units">
+            <h2>Unit Converter</h2>
+            <div class="unit-type-selector">
+                <button class="unit-type-btn active" data-type="length">Length</button>
+                <button class="unit-type-btn" data-type="weight">Weight</button>
+                <button class="unit-type-btn" data-type="temperature">Temperature</button>
+                <button class="unit-type-btn" data-type="area">Area</button>
+                <button class="unit-type-btn" data-type="volume">Volume</button>
+            </div>
+            
+            <div class="unit-convert-section">
+                <div class="unit-converter">
+                    <div class="input-group">
+                        <label for="unit-from-value">Value</label>
+                        <input type="number" id="unit-from-value" placeholder="Enter value" step="any">
+                    </div>
+                    <div class="input-group">
+                        <label for="unit-from">From Unit</label>
+                        <select id="unit-from"></select>
+                    </div>
+                </div>
+                <div class="unit-converter">
+                    <div class="input-group">
+                        <label for="unit-to-value">Result</label>
+                        <input type="number" id="unit-to-value" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="unit-to">To Unit</label>
+                        <select id="unit-to"></select>
+                    </div>
+                </div>
+            </div>
+            <button id="convert-units">Convert</button>
+            <button id="swap-units">Swap Units</button>
+        </div>
+
+        <!-- QR Code Generator Tab -->
+        <div class="tab-content" id="qrcode">
+            <h2>QR Code Generator</h2>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="qr-text">Text or URL</label>
+                        <input type="text" id="qr-text" placeholder="Enter text or URL to encode">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="qr-size">QR Code Size</label>
+                        <select id="qr-size">
+                            <option value="150">Small (150x150)</option>
+                            <option value="200" selected>Medium (200x200)</option>
+                            <option value="250">Large (250x250)</option>
+                            <option value="300">Extra Large (300x300)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="input-group">
+                        <label for="qr-color">QR Code Color</label>
+                        <select id="qr-color">
+                            <option value="000000">Black</option>
+                            <option value="0057b7" selected>Blue</option>
+                            <option value="ffd700">Yellow</option>
+                            <option value="ff0000">Red</option>
+                            <option value="008000">Green</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button id="generate-qr">Generate QR Code</button>
+            <div class="qr-result" id="qr-result" style="display: none;">
+                <div id="qrCodeImage"></div>
+                <button id="download-qr" style="margin-top: 15px; display: none;">Download QR Code</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Web Utilities Hub - All your calculation needs in one place</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Initialize all calculators
+            initInterestCalculator();
+            initTimeZoneConverter();
+            initBMICalculator();
+            initCurrencyConverter();
+            initUnitConverter();
+            initQRCodeGenerator();
+        });
+
+        // Interest Calculator
+        function initInterestCalculator() {
+            const interestTypeSelect = document.getElementById('interest-type');
+            const compoundOptions = document.querySelector('.compound-options');
+            const calculateButton = document.getElementById('calculate-interest');
+            const resultDiv = document.getElementById('interest-result');
+
+            interestTypeSelect.addEventListener('change', function() {
+                if (this.value === 'compound') {
+                    compoundOptions.style.display = 'block';
+                } else {
+                    compoundOptions.style.display = 'none';
+                }
+            });
+
+            calculateButton.addEventListener('click', calculateInterest);
+
+            function calculateInterest() {
+                const principal = parseFloat(document.getElementById('principal').value);
+                const rate = parseFloat(document.getElementById('rate').value);
+                const time = parseFloat(document.getElementById('time').value);
+                const timeUnit = document.getElementById('time-unit').value;
+                const interestType = document.getElementById('interest-type').value;
+                const compoundFrequency = document.getElementById('compound-frequency').value;
+
+                if (isNaN(principal) || isNaN(rate) || isNaN(time)) {
+                    resultDiv.textContent = 'Please enter valid numbers for all fields.';
+                    resultDiv.style.display = 'block';
+                    return;
+                }
+
+                let timeInYears = time;
+                if (timeUnit === 'months') {
+                    timeInYears = time / 12;
+                } else if (timeUnit === 'days') {
+                    timeInYears = time / 365;
+                }
+
+                let interest = 0;
+                let finalAmount = 0;
+
+                if (interestType === 'simple') {
+                    interest = principal * rate * timeInYears / 100;
+                    finalAmount = principal + interest;
+                    
+                    resultDiv.innerHTML = `
+                        <p><strong>Principal Amount:</strong> $${principal.toFixed(2)}</p>
+                        <p><strong>Simple Interest:</strong> $${interest.toFixed(2)}</p>
+                        <p><strong>Final Amount:</strong> $${finalAmount.toFixed(2)}</p>
+                    `;
+                } else {
+                    let n = 1; // Compounding frequency
+                    
+                    switch (compoundFrequency) {
+                        case 'annually':
+                            n = 1;
+                            break;
+                        case 'semi-annually':
+                            n = 2;
+                            break;
+                        case 'quarterly':
+                            n = 4;
+                            break;
+                        case 'monthly':
+                            n = 12;
+                            break;
+                        case 'daily':
+                            n = 365;
+                            break;
+                    }
+                    
+                    finalAmount = principal * Math.pow(1 + (rate / 100) / n, n * timeInYears);
+                    interest = finalAmount - principal;
+                    
+                    resultDiv.innerHTML = `
+                        <p><strong>Principal Amount:</strong> $${principal.toFixed(2)}</p>
+                        <p><strong>Compound Interest:</strong> $${interest.toFixed(2)}</p>
+                        <p><strong>Final Amount:</strong> $${finalAmount.toFixed(2)}</p>
+                        <p><strong>Compounding:</strong> ${compoundFrequency}</p>
+                    `;
+                }
+                
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        // Time Zone Converter
+        function initTimeZoneConverter() {
+            const sourceTimezoneSelect = document.getElementById('source-timezone');
+            const targetTimezoneSelect = document.getElementById('target-timezone');
+            const sourceDatetime = document.getElementById('source-datetime');
+            const useCurrentTimeButton = document.getElementById('use-current-time');
+            const convertButton = document.getElementById('convert-timezone');
+            const resultDiv = document.getElementById('timezone-result');
+            const sourceTimeDisplay = document.getElementById('source-time-display');
+            const targetTimeDisplay = document.getElementById('target-time-display');
+
+            // Time zones list
+            const timeZones = [
+                { value: 'UTC', label: 'UTC (Coordinated Universal Time)' },
+                { value: 'America/New_York', label: 'EST/EDT - New York' },
+                { value: 'America/Chicago', label: 'CST/CDT - Chicago' },
+                { value: 'America/Denver', label: 'MST/MDT - Denver' },
+                { value: 'America/Los_Angeles', label: 'PST/PDT - Los Angeles' },
+                { value: 'Europe/London', label: 'GMT/BST - London' },
+                { value: 'Europe/Paris', label: 'CET/CEST - Paris' },
+                { value: 'Europe/Berlin', label: 'CET/CEST - Berlin' },
+                { value: 'Europe/Moscow', label: 'MSK - Moscow' },
+                { value: 'Asia/Tokyo', label: 'JST - Tokyo' },
+                { value: 'Asia/Shanghai', label: 'CST - Beijing/Shanghai' },
+                { value: 'Asia/Kolkata', label: 'IST - India' },
+                { value: 'Australia/Sydney', label: 'AEST/AEDT - Sydney' },
+                { value: 'Pacific/Auckland', label: 'NZST/NZDT - Auckland' }
+            ];
+
+            // Populate time zone dropdowns
+            timeZones.forEach(tz => {
+                sourceTimezoneSelect.add(new Option(tz.label, tz.value));
+                targetTimezoneSelect.add(new Option(tz.label, tz.value));
+            });
+
+            // Set defaults
+            sourceTimezoneSelect.value = guessUserTimezone();
+            targetTimezoneSelect.value = 'UTC';
+
+            // Set current date and time
+            setCurrentDateTime();
+
+            useCurrentTimeButton.addEventListener('click', setCurrentDateTime);
+            convertButton.addEventListener('click', convertTimeZone);
+
+            function guessUserTimezone() {
+                try {
+                    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+                } catch (e) {
+                    return 'UTC';
+                }
+            }
+
+            function setCurrentDateTime() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                
+                sourceDatetime.value = `${year}-${month}-${day}T${hours}:${minutes}`;
+            }
+
+            function convertTimeZone() {
+                const sourceTimezone = sourceTimezoneSelect.value;
+                const targetTimezone = targetTimezoneSelect.value;
+                const sourceDateTime = new Date(sourceDatetime.value);
+
+                if (isNaN(sourceDateTime.getTime())) {
+                    alert('Please enter a valid date and time.');
+                    return;
+                }
+
+                try {
+                    // Format date for source timezone
+                    const sourceOptions = {
+                        timeZone: sourceTimezone,
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        timeZoneName: 'short'
+                    };
+                    
+                    // Format date for target timezone
+                    const targetOptions = {
+                        timeZone: targetTimezone,
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        timeZoneName: 'short'
+                    };
+                    
+                    sourceTimeDisplay.textContent = new Intl.DateTimeFormat('en-US', sourceOptions).format(sourceDateTime);
+                    targetTimeDisplay.textContent = new Intl.DateTimeFormat('en-US', targetOptions).format(sourceDateTime);
+                    
+                    resultDiv.style.display = 'flex';
+                } catch (error) {
+                    alert('Error converting time zone: ' + error.message);
+                }
+            }
+        }
+
+        // BMI Calculator
+        function initBMICalculator() {
+            const unitSystem = document.getElementById('bmi-unit');
+            const metricInputs = document.querySelector('.metric-inputs');
+            const imperialInputs = document.querySelector('.imperial-inputs');
+            const calculateButton = document.getElementById('calculate-bmi');
+            const resultDiv = document.getElementById('bmi-result');
+
+            unitSystem.addEventListener('change', function() {
+                if (this.value === 'metric') {
+                    metricInputs.style.display = 'flex';
+                    imperialInputs.style.display = 'none';
+                } else {
+                    metricInputs.style.display = 'none';
+                    imperialInputs.style.display = 'flex';
+                }
+            });
+
+            calculateButton.addEventListener('click', calculateBMI);
+
+            function calculateBMI() {
+                let bmi = 0;
+                let weightKg = 0;
+                let heightM = 0;
+
+                if (unitSystem.value === 'metric') {
+                    const weightKgInput = parseFloat(document.getElementById('weight-kg').value);
+                    const heightCmInput = parseFloat(document.getElementById('height-cm').value);
+
+                    if (isNaN(weightKgInput) || isNaN(heightCmInput)) {
+                        resultDiv.textContent = 'Please enter valid numbers for weight and height.';
+                        resultDiv.style.display = 'block';
+                        return;
+                    }
+
+                    weightKg = weightKgInput;
+                    heightM = heightCmInput / 100;
+                } else {
+                    const weightLbInput = parseFloat(document.getElementById('weight-lb').value);
+                    const heightFtInput = parseFloat(document.getElementById('height-ft').value);
+                    const heightInInput = parseFloat(document.getElementById('height-in').value || '0');
+
+                    if (isNaN(weightLbInput) || isNaN(heightFtInput)) {
+                        resultDiv.textContent = 'Please enter valid numbers for weight and height.';
+                        resultDiv.style.display = 'block';
+                        return;
+                    }
+
+                    // Convert imperial to metric
+                    weightKg = weightLbInput * 0.45359237;
+                    heightM = (heightFtInput * 12 + heightInInput) * 0.0254;
+                }
+
+                if (heightM <= 0) {
+                    resultDiv.textContent = 'Height must be greater than zero.';
+                    resultDiv.style.display = 'block';
+                    return;
+                }
+
+                // Calculate BMI
+                bmi = weightKg / (heightM * heightM);
+
+                // Determine BMI category
+                let category = '';
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                } else if (bmi < 25) {
+                    category = 'Normal weight';
+                } else if (bmi < 30) {
+                    category = 'Overweight';
+                } else {
+                    category = 'Obese';
+                }
+
+                resultDiv.innerHTML = `
+                    <p><strong>Your BMI:</strong> ${bmi.toFixed(1)}</p>
+                    <p><strong>Category:</strong> ${category}</p>
+                    <p><em>Note: BMI is a screening tool and not a diagnostic of body fatness or health.</em></p>
+                `;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        // Currency Converter
+        function initCurrencyConverter() {
+            const fromCurrencySelect = document.getElementById('from-currency');
+            const toCurrencySelect = document.getElementById('to-currency');
+            const amountInput = document.getElementById('amount');
+            const convertButton = document.getElementById('convert-currency');
+            const swapButton = document.getElementById('swap-currency');
+            const resultDiv = document.getElementById('currency-result');
+            const loader = document.getElementById('currency-loader');
+            const updateTimeDiv = document.getElementById('exchange-update-time');
+
+            let exchangeRates = {};
+            let lastUpdated = null;
+
+            // Common currencies
+            const commonCurrencies = [
+                { code: 'USD', name: 'US Dollar' },
+                { code: 'EUR', name: 'Euro' },
+                { code: 'GBP', name: 'British Pound' },
+                { code: 'JPY', name: 'Japanese Yen' },
+                { code: 'CAD', name: 'Canadian Dollar' },
+                { code: 'AUD', name: 'Australian Dollar' },
+                { code: 'CHF', name: 'Swiss Franc' },
+                { code: 'CNY', name: 'Chinese Yuan' },
+                { code: 'INR', name: 'Indian Rupee' },
+                { code: 'MXN', name: 'Mexican Peso' },
+                { code: 'SGD', name: 'Singapore Dollar' },
+                { code: 'NZD', name: 'New Zealand Dollar' },
+                { code: 'BRL', name: 'Brazilian Real' },
+                { code: 'ZAR', name: 'South African Rand' }
+            ];
+
+            // Populate currency dropdowns with initial values
+            commonCurrencies.forEach(currency => {
+                fromCurrencySelect.add(new Option(`${currency.code} - ${currency.name}`, currency.code));
+                toCurrencySelect.add(new Option(`${currency.code} - ${currency.name}`, currency.code));
+            });
+
+            // Set default values
+            fromCurrencySelect.value = 'USD';
+            toCurrencySelect.value = 'EUR';
+
+            // Fetch exchange rates on load
+            fetchExchangeRates();
+
+            convertButton.addEventListener('click', convertCurrency);
+            swapButton.addEventListener('click', swapCurrencies);
+
+            // Fetch exchange rates from API
+            async function fetchExchangeRates() {
+                loader.style.display = 'block';
+                try {
+                    // Using the ExchangeRate-API free endpoint
+                    const response = await fetch('https://open.er-api.com/v6/latest/USD');
+                    const data = await response.json();
+                    
+                    if (data && data.rates) {
+                        exchangeRates = data.rates;
+                        lastUpdated = new Date(data.time_last_update_utc);
+                        updateTimeDiv.textContent = `Exchange rates last updated: ${lastUpdated.toLocaleString()}`;
+                        
+                        // Update currency lists with all available currencies
+                        populateCurrencyDropdowns(exchangeRates);
+                        
+                        // Restore selected values
+                        const fromValue = fromCurrencySelect.value;
+                        const toValue = toCurrencySelect.value;
+                        fromCurrencySelect.value = fromValue;
+                        toCurrencySelect.value = toValue;
+                    } else {
+                        throw new Error('Invalid response format');
+                    }
+                } catch (error) {
+                    console.error('Error fetching exchange rates:', error);
+                    alert('Failed to load exchange rates. Please try again later.');
+                    
+                    // Load fallback exchange rates
+                    loadFallbackRates();
+                } finally {
+                    loader.style.display = 'none';
+                }
+            }
+            
+            function loadFallbackRates() {
+                // Fallback exchange rates (approximate as of early 2023)
+                exchangeRates = {
+                    "USD": 1,
+                    "EUR": 0.92,
+                    "GBP": 0.81,
+                    "JPY": 132.5,
+                    "CAD": 1.35,
+                    "AUD": 1.49,
+                    "CHF": 0.91,
+                    "CNY": 6.89,
+                    "INR": 82.01,
+                    "MXN": 18.13,
+                    "SGD": 1.34,
+                    "NZD": 1.61,
+                    "BRL": 5.17,
+                    "ZAR": 18.22
+                };
+                lastUpdated = new Date();
+                updateTimeDiv.textContent = `Using fallback rates (approximate)`;
+            }
+            
+            function populateCurrencyDropdowns(rates) {
+                // Clear existing options
+                fromCurrencySelect.innerHTML = '';
+                toCurrencySelect.innerHTML = '';
+                
+                // Add all currencies from API
+                for (const code in rates) {
+                    const name = getCurrencyName(code);
+                    fromCurrencySelect.add(new Option(`${code} - ${name}`, code));
+                    toCurrencySelect.add(new Option(`${code} - ${name}`, code));
+                }
+            }
+            
+            function getCurrencyName(code) {
+                const currency = commonCurrencies.find(c => c.code === code);
+                return currency ? currency.name : code;
+            }
+
+            function convertCurrency() {
+                const amount = parseFloat(amountInput.value);
+                const fromCurrency = fromCurrencySelect.value;
+                const toCurrency = toCurrencySelect.value;
+
+                if (isNaN(amount)) {
+                    resultDiv.textContent = 'Please enter a valid amount.';
+                    resultDiv.style.display = 'block';
+                    return;
+                }
+
+                if (!exchangeRates[fromCurrency] || !exchangeRates[toCurrency]) {
+                    resultDiv.textContent = 'Exchange rate not available for selected currencies.';
+                    resultDiv.style.display = 'block';
+                    return;
+                }
+
+                // Convert first to USD, then to target currency
+                const amountInUSD = amount / exchangeRates[fromCurrency];
+                const convertedAmount = amountInUSD * exchangeRates[toCurrency];
+
+                resultDiv.innerHTML = `
+                    <p><strong>${amount.toFixed(2)} ${fromCurrency}</strong> = <strong>${convertedAmount.toFixed(2)} ${toCurrency}</strong></p>
+                    <p><strong>Exchange Rate:</strong> 1 ${fromCurrency} = ${(exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(4)} ${toCurrency}</p>
+                `;
+                resultDiv.style.display = 'block';
+            }
+
+            function swapCurrencies() {
+                const temp = fromCurrencySelect.value;
+                fromCurrencySelect.value = toCurrencySelect.value;
+                toCurrencySelect.value = temp;
+                
+                if (resultDiv.style.display === 'block') {
+                    convertCurrency();
+                }
+            }
+        }
+
+        // Unit Converter
+        function initUnitConverter() {
+            const unitTypeButtons = document.querySelectorAll('.unit-type-btn');
+            const fromUnitSelect = document.getElementById('unit-from');
+            const toUnitSelect = document.getElementById('unit-to');
+            const fromValueInput = document.getElementById('unit-from-value');
+            const toValueInput = document.getElementById('unit-to-value');
+            const convertButton = document.getElementById('convert-units');
+            const swapButton = document.getElementById('swap-units');
+            
+            // Unit conversion definitions
+            const unitTypes = {
+                length: {
+                    name: 'Length',
+                    units: {
+                        mm: { name: 'Millimeters (mm)', factor: 0.001 },
+                        cm: { name: 'Centimeters (cm)', factor: 0.01 },
+                        m: { name: 'Meters (m)', factor: 1 },
+                        km: { name: 'Kilometers (km)', factor: 1000 },
+                        in: { name: 'Inches (in)', factor: 0.0254 },
+                        ft: { name: 'Feet (ft)', factor: 0.3048 },
+                        yd: { name: 'Yards (yd)', factor: 0.9144 },
+                        mi: { name: 'Miles (mi)', factor: 1609.344 }
+                    }
+                },
+                weight: {
+                    name: 'Weight',
+                    units: {
+                        mg: { name: 'Milligrams (mg)', factor: 0.000001 },
+                        g: { name: 'Grams (g)', factor: 0.001 },
+                        kg: { name: 'Kilograms (kg)', factor: 1 },
+                        t: { name: 'Metric Tons (t)', factor: 1000 },
+                        oz: { name: 'Ounces (oz)', factor: 0.028349523125 },
+                        lb: { name: 'Pounds (lb)', factor: 0.45359237 },
+                        st: { name: 'Stone (st)', factor: 6.35029318 }
+                    }
+                },
+                temperature: {
+                    name: 'Temperature',
+                    units: {
+                        c: { name: 'Celsius (°C)' },
+                        f: { name: 'Fahrenheit (°F)' },
+                        k: { name: 'Kelvin (K)' }
+                    },
+                    // Special conversion functions for temperature
+                    convert: function(value, from, to) {
+                        // Convert to Celsius first
+                        let celsius;
+                        if (from === 'c') {
+                            celsius = value;
+                        } else if (from === 'f') {
+                            celsius = (value - 32) * 5/9;
+                        } else if (from === 'k') {
+                            celsius = value - 273.15;
+                        }
+                        
+                        // Convert from Celsius to target
+                        if (to === 'c') {
+                            return celsius;
+                        } else if (to === 'f') {
+                            return celsius * 9/5 + 32;
+                        } else if (to === 'k') {
+                            return celsius + 273.15;
+                        }
+                    }
+                },
+                area: {
+                    name: 'Area',
+                    units: {
+                        sqm: { name: 'Square Meters (m²)', factor: 1 },
+                        sqkm: { name: 'Square Kilometers (km²)', factor: 1000000 },
+                        ha: { name: 'Hectares (ha)', factor: 10000 },
+                        sqft: { name: 'Square Feet (ft²)', factor: 0.09290304 },
+                        sqyd: { name: 'Square Yards (yd²)', factor: 0.83612736 },
+                        sqmi: { name: 'Square Miles (mi²)', factor: 2589988.11 },
+                        acre: { name: 'Acres', factor: 4046.8564224 }
+                    }
+                },
+                volume: {
+                    name: 'Volume',
+                    units: {
+                        ml: { name: 'Milliliters (ml)', factor: 0.001 },
+                        l: { name: 'Liters (L)', factor: 1 },
+                        cubm: { name: 'Cubic Meters (m³)', factor: 1000 },
+                        floz: { name: 'Fluid Ounces (fl oz)', factor: 0.0295735296 },
+                        cup: { name: 'Cups', factor: 0.2365882365 },
+                        pint: { name: 'Pints (pt)', factor: 0.473176473 },
+                        gal: { name: 'Gallons (gal)', factor: 3.785411784 },
+                        quart: { name: 'Quarts (qt)', factor: 0.946352946 }
+                    }
+                }
+            };
+            
+            let currentUnitType = 'length';
+            
+            // Initialize with length units
+            loadUnitOptions('length');
+            
+            // Add event listeners
+            unitTypeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    unitTypeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Load new unit options
+                    const unitType = button.getAttribute('data-type');
+                    currentUnitType = unitType;
+                    loadUnitOptions(unitType);
+                    
+                    // Clear values
+                    fromValueInput.value = '';
+                    toValueInput.value = '';
+                });
+            });
+            
+            convertButton.addEventListener('click', convertUnits);
+            swapButton.addEventListener('click', swapUnits);
+            fromValueInput.addEventListener('input', convertUnits);
+            
+            function loadUnitOptions(unitType) {
+                // Clear existing options
+                fromUnitSelect.innerHTML = '';
+                toUnitSelect.innerHTML = '';
+                
+                // Add new options
+                const units = unitTypes[unitType].units;
+                for (const key in units) {
+                    fromUnitSelect.add(new Option(units[key].name, key));
+                    toUnitSelect.add(new Option(units[key].name, key));
+                }
+                
+                // Set default values
+                if (unitType === 'length') {
+                    fromUnitSelect.value = 'ft';
+                    toUnitSelect.value = 'm';
+                } else if (unitType === 'weight') {
+                    fromUnitSelect.value = 'lb';
+                    toUnitSelect.value = 'kg';
+                } else if (unitType === 'temperature') {
+                    fromUnitSelect.value = 'f';
+                    toUnitSelect.value = 'c';
+                } else if (unitType === 'area') {
+                    fromUnitSelect.value = 'sqft';
+                    toUnitSelect.value = 'sqm';
+                } else if (unitType === 'volume') {
+                    fromUnitSelect.value = 'gal';
+                    toUnitSelect.value = 'l';
+                }
+            }
+            
+            function convertUnits() {
+                const fromValue = parseFloat(fromValueInput.value);
+                const fromUnit = fromUnitSelect.value;
+                const toUnit = toUnitSelect.value;
+                
+                if (isNaN(fromValue)) {
+                    toValueInput.value = '';
+                    return;
+                }
+                
+                let result;
+                
+                // Handle temperature specially
+                if (currentUnitType === 'temperature') {
+                    result = unitTypes.temperature.convert(fromValue, fromUnit, toUnit);
+                } else {
+                    // For other units, use the conversion factors
+                    const fromFactor = unitTypes[currentUnitType].units[fromUnit].factor;
+                    const toFactor = unitTypes[currentUnitType].units[toUnit].factor;
+                    
+                    // Convert to base unit, then to target unit
+                    result = (fromValue * fromFactor) / toFactor;
+                }
+                
+                // Format the result based on precision needs
+                if (Math.abs(result) < 0.01) {
+                    toValueInput.value = result.toExponential(4);
+                } else {
+                    toValueInput.value = result.toFixed(4).replace(/\.?0+$/, '');
+                }
+            }
+            
+            function swapUnits() {
+                const tempUnit = fromUnitSelect.value;
+                fromUnitSelect.value = toUnitSelect.value;
+                toUnitSelect.value = tempUnit;
+                
+                const tempValue = fromValueInput.value;
+                fromValueInput.value = toValueInput.value;
+                toValueInput.value = tempValue;
+                
+                if (fromValueInput.value) {
+                    convertUnits();
+                }
+            }
+        }
+
+        // QR Code Generator
+        function initQRCodeGenerator() {
+            const qrTextInput = document.getElementById('qr-text');
+            const qrSizeSelect = document.getElementById('qr-size');
+            const qrColorSelect = document.getElementById('qr-color');
+            const generateButton = document.getElementById('generate-qr');
+            const qrResult = document.getElementById('qr-result');
+            const qrCodeImage = document.getElementById('qrCodeImage');
+            const downloadButton = document.getElementById('download-qr');
+            
+            generateButton.addEventListener('click', generateQRCode);
+            downloadButton.addEventListener('click', downloadQRCode);
+            
+            function generateQRCode() {
+                const text = qrTextInput.value.trim();
+                const size = qrSizeSelect.value;
+                const color = qrColorSelect.value;
+                
+                if (!text) {
+                    alert('Please enter text or URL to generate QR code.');
+                    return;
+                }
+                
+                // Use Google Charts API to generate QR code
+                const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${encodeURIComponent(text)}&chco=${color}`;
+                
+                qrCodeImage.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="max-width: 100%;">`;
+                qrResult.style.display = 'flex';
+                downloadButton.style.display = 'block';
+                
+                // Store URL for download
+                downloadButton.setAttribute('data-url', qrUrl);
+            }
+            
+            function downloadQRCode() {
+                const url = downloadButton.getAttribute('data-url');
+                if (!url) return;
+                
+                // Create a temporary link and trigger download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'qrcode.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+    </script>
